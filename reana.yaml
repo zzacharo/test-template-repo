@@ -1,0 +1,19 @@
+version: 0.3.0
+inputs:
+  files:
+    - code/myproject.ipynb
+    - data/mydata.csv
+  parameters:
+    notebook: code/myproject.ipynb
+    input_file: data/mydata.csv
+    output_file: results/plot.png
+workflow:
+  type: serial
+  specification:
+    steps:
+      - environment: 'reanahub/reana-env-jupyter:2.0.0'
+        commands:
+          - mkdir -p results && papermill ${notebook} /dev/null -p input_file ${input_file} -p output_file ${output_file}
+outputs:
+  files:
+    - results/plot.png
